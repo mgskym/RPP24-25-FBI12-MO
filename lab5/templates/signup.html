@@ -1,0 +1,12 @@
+{% extends "blueprint.html" %}
+
+{% block main %}
+    <h1>Регистрация</h1>
+    <form method="POST">
+        <input type="text" name="name" placeholder="Имя пользователя">
+        <input type="text" name="email" placeholder="E-mail">
+        <input type="text" name="password" placeholder="Пароль">
+        <button type="submit">Зарегистрироваться</button>
+    </form>
+    <div style="color: red; margin-top: 24px;">{{ errors }}</div>
+{% endblock %}
