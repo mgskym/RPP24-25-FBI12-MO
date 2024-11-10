@@ -26,7 +26,7 @@ login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_users(user_id):
-    return users.query.get(int(user_id))
+    return user.query.get(int(user_id))
 
 
 @app.route("/")
@@ -37,14 +37,14 @@ def start():
 
 
 @app.route("/login", methods=['GET'])
-def login_get():
+def login():
     return render_template(
         'login.html'
     )
 
 
 @app.route("/login", methods=['POST'])
-def login_post():
+def login_2():
     email_form = request.form.get('email')
     password_form = request.form.get('password')
     my_user = user.query.filter_by(email=email_form).first()
