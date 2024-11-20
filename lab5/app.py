@@ -121,7 +121,7 @@ def logout():
     return redirect("/login")
 
 
-@app.route("/main", methods=['POST', 'GET'])
+@app.route("/main", methods=['GET'])
 @login_required
 def main_page():
     return render_template(
