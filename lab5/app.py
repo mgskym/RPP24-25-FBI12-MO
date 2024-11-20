@@ -48,12 +48,25 @@ def login_2():
     email_form = request.form.get('email')
     password_form = request.form.get('password')
     my_user = user.query.filter_by(email=email_form).first()
-
-    if (email_form != '' and password_form != '') and my_user and check_password_hash(my_user.password, password_form):
-        login_user(my_user, remember=False)
-        return redirect("/index", code=302)
+    if (email_form != '' and password_form != ''):
+        if my_user:
+            if check_password_hash(my_user.password, password_form):
+                login_user(my_user, remember=False)
+                return redirect("/index", code=302)
+            else:
+                errors = 'Неверный логин или пароль'
+                return render_template(
+                'login.html',
+                errors=errors
+            )
+        else:
+            errors = 'Пользователь с таким Email не найден'
+            return render_template(
+                'login.html',
+                errors=errors
+            )
     else:
-        errors = 'Пользователь не найден или не заполнены все обязательные поля'
+        errors = 'Не заполнены все обязательные поля'
         return render_template(
             'login.html',
             errors=errors
@@ -75,14 +88,15 @@ def register_post():
     errors = "Не заполнены все обязательные поля"
 
     is_user_exists = user.query.filter_by(email=email_form).first()
-    if is_user_exists:
-        errors = 'Пользователь с такими данными уже существует'
-        return render_template(
-            'signup.html',
-            errors=errors
-        )
-    else:
-        if (name_form != '' and email_form != '' and password_form != ''):
+
+    if (name_form != '' and email_form != '' and password_form != ''):
+        if is_user_exists:
+            errors = 'Пользователь с такими данными уже существует'
+            return render_template(
+                'signup.html',
+                errors=errors
+            )
+        else:
             hashedPswd = generate_password_hash(password_form, method="pbkdf2")
             newUser = user(
                 name = name_form,
@@ -92,12 +106,12 @@ def register_post():
             db.session.add(newUser)
             db.session.commit()
             return redirect("/login", code=302)
-        else:
-            errors = 'Заполните все обязательные поля'
-            return render_template(
+    else:
+        errors = 'Не заполнены все обязательные поля'
+        return render_template(
                 'signup.html',
                 errors=errors
-            )
+        )
 
 
 @app.route("/logout")
