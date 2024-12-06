@@ -1,0 +1,9 @@
+{% extends "blueprint.html" %}
+
+{% block main %}
+    <h1>Управление пулом инстансов</h1>
+    <a href="/add_instance">Добавить инстанс</a>
+    <a href="/remove_instance">Удалить инстанс</a>
+    <h2>Активные инстансы</h2>
+    {{ active_instances }}
+{% endblock %}

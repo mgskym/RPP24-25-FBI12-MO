@@ -1,0 +1,14 @@
+{% extends "blueprint.html" %}
+
+{% block main %}
+    <a href="/">Назад</a>
+    <h1>Удаление инстанса</h1>
+    <form method="POST">
+        <p>Активные инстансы:</p>
+        {{ instances }}
+        <br>
+        <p>Укажите индекс инстанса для удаления</p>
+        <input type="number", name="id">
+        <button type="submit">Удалить</button>
+    </form>
+{% endblock %}

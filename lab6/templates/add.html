@@ -1,0 +1,11 @@
+{% extends "blueprint.html" %}
+
+{% block main %}
+    <a href="/">Назад</a>
+    <h1>Добавление нового инстанса</h1>
+    <form method="POST">
+        <input type="text" placeholder="IP адрес", value=" 127.0.0.1", name="ip">
+        <input type="number", name="port">
+        <button type="submit">Добавить</button>
+    </form>
+{% endblock %}
