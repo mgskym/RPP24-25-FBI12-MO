@@ -15,6 +15,8 @@ balancer = Flask(__name__)
 IP_local = 'http://127.0.0.1:'
 app_ports = [5001, 5002, 5003]
 active_instances = []
+round_robin_count = 0
+round_robin_next = None
 
 def health_instances():
     while True:
@@ -29,30 +31,38 @@ def health_instances():
             except:
                 print(f'Instance {i+1} is not avaliable.')
         active_instances = ids
+        round_robin_count = len(active_instances)
         print(active_instances)
         print(app_ports)
         time.sleep(5)
 
 
-@balancer.route('/health', methods=['GET'])
-def health():
-    res_body = {
-        "active_instances": active_instances
-    }
-    return make_response(res_body, 200)
-
-
-@balancer.route('/process', methods=['GET'])
-def process():
+@balancer.route('/<path:path>', methods=['GET'])
+def path(path):
+    global round_robin_next
     if active_instances:
-        selected_id = random.choice(active_instances)
-        response = requests.get(f'{IP_local}{app_ports[selected_id-1]}/process').json()['instance_id']
-        res_body = {
-            "message": response
-        }
+        if round_robin_next:
+            if round_robin_next == (len(active_instances) + 1):
+                round_robin_next = active_instances[0]
+                
+            request = requests.get(f'{IP_local}{app_ports[round_robin_next-1]}/{path}').json()
+            res_body = {
+                "message": f'{IP_local}{app_ports[round_robin_next-1]}/{path}',
+                "request": request
+            }
+            round_robin_next += 1
+        else:
+            round_robin_next = active_instances[0]
+
+            request = requests.get(f'{IP_local}{app_ports[round_robin_next-1]}/{path}').json()
+            res_body = {
+                "message": f'{IP_local}{app_ports[round_robin_next-1]}/{path}',
+                "request": request
+            }
+            round_robin_next += 1
     else:
         res_body = {
-            "message": "Error"
+            "message": 'error'
         }
     return make_response(res_body, 200)
 
@@ -61,7 +71,8 @@ def process():
 def manager():
     return render_template(
         'index.html',
-        active_instances = active_instances 
+        active_instances = active_instances, app_ports = app_ports
+
     )
 
 
@@ -77,10 +88,6 @@ def add_instance():
     ip = request.form.get('ip')
     port = request.form.get('port')
     app_ports.append(int(port))
-
-    script_path = "./start_application.sh"
-    # subprocess.call([script_path, ip, port], shell=True)
-    os.system(f"bash {script_path} {ip} {port}")
 
     return redirect('/', code=301)
 
@@ -101,18 +108,6 @@ def remove_instance():
     id = request.form.get('id')
     app_ports.pop(int(id) - 1)
     return redirect('/', code=301)
-
-
-@balancer.route('/<path:path>', methods=['GET'])
-def path():
-    if active_instances:
-        selected_id = random.choice(active_instances)
-        request = requests.get(f'{IP_local}{app_ports[selected_id-1]}/{path}')
-    else:
-        res_body = {
-            "message": request
-        }
-    return make_response(res_body, 200)
 
 
 if __name__ == '__main__':

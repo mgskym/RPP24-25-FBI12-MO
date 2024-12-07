@@ -15,10 +15,10 @@ def health():
 @app.route('/process', methods=['GET'])
 def process():
     res_body = {
-        "instance_id": 3
+        "instance_id": 5
     }
     return make_response(res_body, 200)
 
 
 if __name__ == '__main__':
-    app.run(port=5003)
+    app.run(debug=True, port=5005)

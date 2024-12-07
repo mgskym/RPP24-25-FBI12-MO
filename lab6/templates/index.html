@@ -5,5 +5,12 @@
     <a href="/add_instance">Добавить инстанс</a>
     <a href="/remove_instance">Удалить инстанс</a>
     <h2>Активные инстансы</h2>
-    {{ active_instances }}
+    <ul>
+        {% for i in active_instances %}
+            <li>
+                №{{ active_instances[i-1] }}. 127.0.0.1:{{ app_ports[i-1] }}
+            </li>
+        {% endfor %}
+    </ul>
+    
 {% endblock %}
