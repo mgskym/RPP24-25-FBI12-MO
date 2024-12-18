@@ -10,7 +10,7 @@ limiter = Limiter(
 )
 
 
-def read_json_data():
+def read_data():
     try:
         with open('data.json', 'r') as file:
             return json.load(file)
@@ -26,12 +26,11 @@ def write_data(data):
 @app.route('/set', methods=['POST'])
 @limiter.limit("10/minute", override_defaults=False)
 def set_value():
-    data = read_json_data()
+    data = read_data()
     try:
         req = request.json
-        if req['key'] and req['value']:
-            data[req['key']] = req['value']
-            write_data(data)
+        if req:
+            write_data(req)
             return make_response('OK', 200)
         else:
             return make_response('No "key" and "value" in JSON.', 400)
@@ -41,7 +40,7 @@ def set_value():
 
 @app.route('/get/<key>', methods=['GET'])
 def get(key):
-    data = read_json_data()
+    data = read_data()
     if key in data:
         return make_response(f'{data[key]}', 200)
     else:
@@ -51,7 +50,7 @@ def get(key):
 @app.route('/delete/<key>', methods=['DELETE'])
 @limiter.limit("10/minute", override_defaults=False)
 def delete(key):
-    data = read_json_data()
+    data = read_data()
     if key in data:
         del data[key]
         write_data(data)
@@ -62,7 +61,7 @@ def delete(key):
 
 @app.route('/exists/<key>', methods=['GET'])
 def exists(key):
-    data = read_json_data()
+    data = read_data()
     if key in data:
         return make_response('Key exists.', 200)
     else:
