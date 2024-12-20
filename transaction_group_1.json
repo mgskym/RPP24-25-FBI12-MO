@@ -1,0 +1,52 @@
+[
+    {
+        "timestamp": 1734715563.383136,
+        "category": "Food and Cafe",
+        "amount": 1805.17
+    },
+    {
+        "timestamp": 1734715563.383136,
+        "category": "Transport",
+        "amount": 1272.46
+    },
+    {
+        "timestamp": 1734715563.383136,
+        "category": "Transport",
+        "amount": 4020.14
+    },
+    {
+        "timestamp": 1734715563.383136,
+        "category": "Transport",
+        "amount": 4838.99
+    },
+    {
+        "timestamp": 1734715563.383136,
+        "category": "Transport",
+        "amount": 6528.59
+    },
+    {
+        "timestamp": 1734715563.383136,
+        "category": "Clothes and shoes",
+        "amount": 7438.15
+    },
+    {
+        "timestamp": 1734715563.383136,
+        "category": "Appliances and electronics",
+        "amount": 7135.68
+    },
+    {
+        "timestamp": 1734715563.383136,
+        "category": "Appliances and electronics",
+        "amount": 6719.56
+    },
+    {
+        "timestamp": 1734715563.383136,
+        "category": "Food and Cafe",
+        "amount": 5817.35
+    },
+    {
+        "timestamp": 1734715563.383136,
+        "category": "Transport",
+        "amount": 8477.81
+    }
+]

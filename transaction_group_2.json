@@ -1,0 +1,27 @@
+[
+    {
+        "timestamp": 1734715563.384136,
+        "category": "Appliances and electronics",
+        "amount": 3271.49
+    },
+    {
+        "timestamp": 1734715563.384136,
+        "category": "Clothes and shoes",
+        "amount": 3104.96
+    },
+    {
+        "timestamp": 1734715563.384136,
+        "category": "Transport",
+        "amount": 8419.31
+    },
+    {
+        "timestamp": 1734715563.384136,
+        "category": "Food and Cafe",
+        "amount": 9256.41
+    },
+    {
+        "timestamp": 1734715563.384136,
+        "category": "Transport",
+        "amount": 7574.55
+    }
+]
